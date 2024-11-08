@@ -15,14 +15,15 @@
             </ul>
         </div>
     @endif
-    <h1 class="mb-4">Create New Tag</h1>
-    <form action="{{ route('tags.store') }}" method="POST">
+    <h1 class="mb-4">Edit Tag</h1>
+    <form action="{{ route('tags.update', $tag->id) }}" method="POST">
         @csrf
+        @method('PUT')
         <div class="form-group">
             <label for="name">Tag Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control" id="name" name="name" value="{{ $tag->name }}" required>
         </div>
-        <button type="submit" class="btn btn-success">Create Tag</button>
+        <button type="submit" class="btn btn-success">Update Tag</button>
     </form>
 </div>
 @endsection

@@ -21,8 +21,7 @@ use Illuminate\Http\Request;
 
 
 Route::match(['get', 'post'], '/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-Route::post('/payment/failure', [PaymentController::class, 'failure'])->name('payment.failure');
-
+Route::match(['get', 'post'], '/payment/failure', [PaymentController::class, 'failure'])->name('payment.failure');
 // Debug route to test success
 Route::get('/payment/success-debug', function (Request $request) {
     return response()->json(['message' => 'GET request received', 'data' => $request->all()]);
@@ -109,6 +108,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('questions', QuestionController::class);
     Route::get('/questions/{quizId}/fetch', [QuestionController::class, 'fetchQuestions'])->name('questions.fetch');
     Route::resource('tags', TagController::class);
+    Route::resource('packages', PackageController::class);
+
 });
 
 
@@ -151,8 +152,6 @@ Route::get('/student/result', [ResultController::class, 'showResults'])->name('s
 Route::delete('/student/result/delete/{id}', [ResultController::class, 'deleteResult'])->name('student.result.delete');
 
 
-//Package
-Route::resource('packages', PackageController::class);
 Route::get('/available-exams', [StudentController::class, 'showAvailableExams'])->name('available.exams');
 Route::get('/exam/view/{packageName}', [StudentController::class, 'showViews'])->name('exam.showViews');
 

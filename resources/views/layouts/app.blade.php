@@ -95,23 +95,29 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Quiz</p>
+                <a href="{{ route('quizzes.create') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Quiz</p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
+            </li>  
+            <li class="nav-item">
+              <a href="{{ route('questions.create') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Question Answer</p>
-                </a>
-              </li>
+              </a>
+          </li>  
               <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tag</p>
+                <a href="{{ route('tags.create') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Tag</p>
                 </a>
-              </li>
+            </li>   
+            <li class="nav-item">
+              <a href="{{ route('packages.create') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Package</p>
+              </a>
+          </li>     
             </ul>
           </li>
 
@@ -123,29 +129,25 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Quiz</p>
+                <a href="{{ route('quizzes.index') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Quiz</p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
+            </li>  
+            <li class="nav-item">
+              <a href="{{ route('questions.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Question</p>
-                </a>
-              </li>
+              </a>
+          </li>  
+         
               <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>User</p>
+                <a href="{{ route('tags.index') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Tag</p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tag</p>
-                </a>
-              </li>
+            </li>
+
             </ul>
           </li>
 
@@ -233,6 +235,6 @@
 </script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-
+@yield('scripts')
 </body>
 </html>
