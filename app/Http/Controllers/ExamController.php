@@ -47,43 +47,37 @@ class ExamController extends Controller
     }
 
  // Function to start the exam and pass data to the view
-public function startExam($examTitle)
-{
-    $user = Auth::user();
-    $quiz = Quiz::where('heading', $examTitle)->first();
+ public function startExam($examTitle)
+ {
+     $user = Auth::user(); 
+     $quiz = Quiz::where('heading', $examTitle)->first();
+     if (!$quiz) {
+         return redirect()->back()->withErrors(['message' => 'Quiz not found.']);
+     }
 
-    // Return an error if the quiz is not found
-    if (!$quiz) {
-        return redirect()->back()->withErrors(['message' => 'Quiz not found.']);
-    }
+     $quizId = $quiz->id;
+     $questions = Question::where('quiz_id', $quizId)->get();
 
-    $quizId = $quiz->id; // Obtain quiz ID here
-    $questions = Question::where('quiz_id', $quizId)->get();
+     $totalQuestions = $questions->count();
+     $solvedQuestions = 0;         
+     $unsolvedQuestions = $totalQuestions - $solvedQuestions;
 
-    $totalQuestions = $questions->count();
-    $solvedQuestions = DB::table('user_answers')
-        ->where('user_id', Auth::id())
-        ->whereIn('question_id', $questions->pluck('id'))
-        ->count();
-    $unsolvedQuestions = $totalQuestions - $solvedQuestions;
+     $packageName = "Your Package Name"; 
+     $imageUrl = "path/to/image.png"; 
+     $timeLimitInSeconds = $quiz->time_duration;
 
-    $packageName = "Your Package Name"; 
-    $imageUrl = "path/to/image.png"; 
-    $timeLimit = 50 * 60;
-
-    return view('student.exam_start', [
-        'studentName' => $user->firstname,
-        'examTitle' => $examTitle,
-        'questions' => $questions,
-        'totalQuestions' => $totalQuestions,
-        'solvedQuestions' => $solvedQuestions,
-        'unsolvedQuestions' => $unsolvedQuestions,
-        'packageName' => $packageName,
-        'imageUrl' => $imageUrl,
-        'timeLimit' => $timeLimit,
-        'quizId' => $quizId // Pass quiz ID to the view
-    ]);
-}
+     return view('student.exam_start', [
+         'studentName' => $user->firstname,
+         'examTitle' => $examTitle, 
+         'questions' => $questions,
+         'totalQuestions' => $totalQuestions,  
+         'solvedQuestions' => $solvedQuestions, 
+         'unsolvedQuestions' => $unsolvedQuestions, 
+         'packageName' => $packageName,
+         'imageUrl' => $imageUrl,
+         'timeLimitInSeconds' => $timeLimitInSeconds,
+        'quizId' => $quizId ]);
+ }
 
 
     // Function to show an individual question
@@ -168,7 +162,7 @@ public function startExam($examTitle)
     
         // Check if data exists
         if (!$examTitle || !$percentage) {
-            return redirect()->route('student.dashboard'); // Or another fallback route if the data is missing
+            return redirect()->route('student.dashboard'); 
         }
     
         // Pass the data to the view

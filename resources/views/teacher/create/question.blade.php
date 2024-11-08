@@ -62,7 +62,7 @@
 
                 <div class="mb-3">
                     <label for="question_table" class="form-label">Question Table:</label>
-                    <textarea class="form-control" name="question_table" rows="5">{{ old('question_table', $question->question_table) }}</textarea>
+                    <textarea class="form-control" name="question_table" id="question_table" rows="5">{{ old('question_table', $question->question_table) }}</textarea>
                 </div>
 
 
@@ -138,6 +138,14 @@
 </div>
 
 <!-- Script to toggle answer fields based on input type -->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#question_table'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 <script>
     function toggleInputFields() {
     const inputType = document.getElementById('input_type').value;

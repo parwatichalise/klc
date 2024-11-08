@@ -19,7 +19,17 @@
     
     <form action="{{ route('quizzes.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        
+        <div class="form-group">
+            <label for="package_id">Select Package:</label>
+            <select name="package_id" id="package_id" class="form-control">
+                <option value="">None</option>
+                @foreach ($packages as $package)
+                    <option value="{{ $package->id }}" {{ (isset($quiz) && $quiz->package_id == $package->id) ? 'selected' : '' }}>
+                        {{ $package->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <div class="form-group">
             <label for="photo">Photo:</label>
             <input type="file" class="form-control" id="photo" name="photo">
@@ -37,13 +47,13 @@
         
         <div class="form-group">
             <label for="price">Price:</label>
-            <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+            <input type="number" class="form-control" id="price" name="price" step="0.01">
         </div>
 
         <div class="form-group">
-            <label for="time_duration">Time Duration:</label>
-            <input type="time" class="form-control" id="time_duration" name="time_duration" required>
-        </div>
+            <label for="time_duration">Time Duration (in minutes):</label>
+            <input type="number" class="form-control" id="time_duration" name="time_duration" required min="1" step="1">
+        </div>  
 
         <div class="form-group">
             <label for="tags">Tags:</label>

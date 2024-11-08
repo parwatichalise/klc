@@ -106,6 +106,7 @@
             color: inherit;
         }
 
+
         
 
     </style>
@@ -221,34 +222,34 @@
     </div>
 </div>     
 
-    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Timer Countdown
-        function startTimer(duration, display) {
-            let timer = duration, minutes, seconds;
-            const interval = setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
+<script>
+    function startTimer(duration, display) {
+        let timer = duration, minutes, seconds;
+        const interval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
 
-                display.textContent = minutes + ":" + seconds;
+            display.textContent = minutes + ":" + seconds;
 
-                if (--timer < 0) {
-                    clearInterval(interval);
-                    alert("Time's up! Your exam will be submitted.");
-                    document.getElementById("submit-button").click(); // Auto-submit when time runs out
-                }
-            }, 1000);
-        }
+            if (--timer < 0) {
+                clearInterval(interval);
+                alert("Time's up! Your exam will be submitted.");
+                document.querySelector(".btn-submit").click(); // Auto-submit when time runs out
+            }
+        }, 1000);
+    }
 
-        window.onload = function () {
-            let timeLimit = {{ $timeLimit }}; // Time limit in seconds from backend
+    window.onload = function () {
+        let timeLimit = @json($timeLimitInSeconds); 
+        if (timeLimit) {
             let display = document.querySelector('#time-remaining');
             startTimer(timeLimit, display);
-        };
-    </script>
+        }
+    };
+</script>
+ 
 </body>
 </html>

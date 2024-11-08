@@ -12,6 +12,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ViewExamController;
+use App\Http\Controllers\PackageController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\PaymentController;
@@ -148,3 +149,11 @@ Route::get('/student/result', [ResultController::class, 'showResults'])->name('s
 
 // Delete result route
 Route::delete('/student/result/delete/{id}', [ResultController::class, 'deleteResult'])->name('student.result.delete');
+
+
+//Package
+Route::resource('packages', PackageController::class);
+Route::get('/available-exams', [StudentController::class, 'showAvailableExams'])->name('available.exams');
+Route::get('/exam/view/{packageName}', [StudentController::class, 'showViews'])->name('exam.showViews');
+
+Route::get('/results', [StudentController::class, 'showResults'])->name('result');

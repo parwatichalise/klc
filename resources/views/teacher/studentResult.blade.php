@@ -32,6 +32,7 @@
                     <th>S.N</th>
                     <th>Name</th>
                     <th>Exam Id</th>
+                    <th>Title</th>
                     <th>Total Questions</th>
                     <th>Total Attempts</th>
                     <th>Total Correct</th>
@@ -49,6 +50,7 @@
                     <td class="py-2 px-3">{{ $result->id }}</td>
                     <td class="py-2 px-3">{{ $result->name }}</td>
                     <td class="py-2 px-3">{{ $result->exam_id }}</td>
+                    <td class="py-2 px-3">{{ $result->exam_title }}</td>
                     <td class="py-2 px-3">{{ $result->total_questions }}</td>
                     <td class="py-2 px-3">{{ $result->total_attempts }}</td>
                     <td class="py-2 px-3">{{ $result->total_correct }}</td>

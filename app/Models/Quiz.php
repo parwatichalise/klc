@@ -20,5 +20,15 @@ class Quiz extends Model
         return $this->belongsToMany(Tag::class); // Adjust the Tag class if needed
     }
 
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1); // Adjust the column and value as necessary
+    }
+
 
 }

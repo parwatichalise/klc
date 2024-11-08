@@ -6,6 +6,7 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Quiz;
+use App\Models\Package;
 use App\Models\Option;
 use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
@@ -205,4 +206,53 @@ class StudentController extends Controller
 
         return view('student.dashboard', compact('quizzes', 'payments', 'studentName'));
     }
+
+    public function showViews($packageName, Request $request)
+{
+    $imageUrl = $request->query('imageUrl', asset('images/default.png')); // Provide a default image path
+    $student = Student::first();
+    $user = Auth::user();
+
+    // Fetch the package by name to get its ID
+    $package = Package::where('name', $packageName)->first();
+
+    // Check if the package exists
+    if (!$package) {
+        return redirect()->back()->withErrors(['Package not found.']);
+    }
+
+    // Fetch quizzes related to the package
+    $packageQuizzes = Quiz::where('package_id', $package->id)->get();
+
+    return view('student.examview', [
+        'studentName' => $user ? $user->firstname : 'Unknown Student',
+        'packageName' => $package->name,
+        'imageUrl' => $imageUrl,
+        'packageQuizzes' => $packageQuizzes,
+        'packagePrice' => $package->price,
+        'package' => $package,
+    ]);
+}
+
+public function showAvailableExams(Request $request)    
+{
+    $student = auth::user();
+
+    // Check if the user is authenticated
+    if (!$student) {
+        return redirect()->route('login'); // Redirect if not authenticated
+    }
+
+    $studentName = $student->firstname; 
+    $packageId = $request->query('package_id'); 
+
+    // Fetch active quizzes associated with the package and ensure the package_id is not null
+    $quizzes = Quiz::where('package_id', '!=', null)
+                   ->active() // Use the scope here
+                   ->with('tags')
+                   ->paginate(10);
+
+    return view('student.available_exams', compact('studentName', 'quizzes'));
+}
+
 }

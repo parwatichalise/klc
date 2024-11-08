@@ -323,7 +323,12 @@
         @if($quiz->price == 0 || $quiz->price == null) <!-- Ensure only free exams are listed here -->
             <div class="card">
                 <div class="exam-card-header">
-                    <img src="/images/exam_logo.png" alt="Exam Logo" width="50" height="50">
+                @if($quiz->photo)
+                            <img src="/storage/{{ $quiz->photo }}" alt="{{ $quiz->heading }}" width="50" height="50" class="me-2">
+                        @else
+                            <img src="/images/exam_logo.png" alt="Exam Logo" width="50" height="50" class="me-2">
+                        @endif
+
                     <h6 ><strong>{{ $quiz->heading }}</strong></h6>
                 </div>
                 <div class="card-body">
@@ -346,53 +351,55 @@
 </div>
 
 
+<!-- Exam Packages Section -->
 <h2 class="mt-4"><strong>Exam Packages</strong></h2>
-<div class="exam-list">
-@foreach ($quizzes as $quiz)
-    @if($quiz->price > 0)
-        <div class="card">
-            <div class="exam-card-header">
-                <img src="/images/exam_logo.png" alt="Exam Logo" width="50" height="50">
-                <h6><strong>{{ $quiz->heading }}</strong></h6>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ $quiz->sub_heading }}</h5>
-                @foreach ($quiz->tags as $tag)
-                    <span class="rounded-badge">{{ $tag->name }}</span>
-                @endforeach
-                <br><br>
-                <span class="badge-available">{{ $quiz->active ? 'Available' : 'Unavailable' }}</span>
-                <br>
+<div class="exam-packages">
+    @if(isset($quizzes) && (is_array($quizzes) ? !empty($quizzes) : $quizzes->isNotEmpty()))
+        @php
+            $quizzesGroupedByPackage = $quizzes->groupBy('package_id');
+        @endphp
 
-                @if($quiz->active)
-                    <div class="d-flex justify-content-between align-items-center mt-2">
-                        @php
-                            // Check for an active payment that matches the quiz price
-                            $activePayment = $payments->firstWhere(function ($payment) use ($quiz) {
-                                return $payment->amount == $quiz->price && $payment->is_active;
-                            });
-                        @endphp
+        @foreach ($quizzesGroupedByPackage as $packageId => $quizzes)
+            @if ($quizzes->first()->package) <!-- Ensure the package is not null -->
+                @php
+                    $package = $quizzes->first()->package;
+                    // Check for an active payment that matches the quiz price
+                    $activePayment = $payments->firstWhere(function ($payment) use ($quizzes) {
+                        return $payment->amount == $quizzes->first()->price && $payment->is_active;
+                    });
+                @endphp
 
-                        @if($activePayment) <!-- Check if any active payment with a matching amount exists -->
-                            <a href="{{ route('examview') }}" class="btn btn-secondary view-btn"> VIEW </a>
-                        @else
-                            <span class="btn btn-secondary disabled"> VIEW </span>
-                        @endif
-
-                        <a href="#" class="btn btn-primary buy-btn"
-                           data-toggle="modal" data-target="#buyExamModal"
-                           data-package-name="{{ $quiz->heading }}"
-                           data-price="{{ $quiz->price }}">
-                            BUY RS. {{ $quiz->price }}
-                        </a>
+                <div class="card mb-4">
+                    <div class="exam-card-header d-flex align-items-center p-3">
+                        <img src="{{ $package->image ? asset($package->image) : '/images/package.png' }}" 
+                             alt="{{ $package->name }}" width="50" height="50" class="me-2">
+                        <h6><strong>{{ $package->name ?? 'No Package Available' }}</strong></h6>
                     </div>
-                @endif
-            </div>
-        </div>
-    @endif
-@endforeach
-</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $package->name ?? 'No Package Available' }}</h5>
+                        <p class="quiz-count">{{ $quizzes->count() }} exams</p>
+                        <span class="badge-available">{{ $quizzes->first()->active ? 'Available' : 'Unavailable' }}</span>
 
+                        @if($quizzes->first()->active)
+                            @if($activePayment) <!-- Show VIEW button only if active payment exists -->
+                                <a href="{{ route('available.exams') }}" class="btn btn-primary mt-2">VIEW</a>
+                            @else <!-- Show BUY button if no active payment -->
+                                @if($quizzes->first()->price)
+                                    <button class="btn buy-btn mt-2" data-package-name="{{ $package->name }}" 
+                                            data-price="{{ $quizzes->first()->price }}" data-toggle="modal" 
+                                            data-target="#buyExamModal">BUY RS. {{ $quizzes->first()->price }}
+                                    </button>
+                                @endif
+                            @endif
+                        @endif
+                    </div>
+                </div>
+            @endif
+        @endforeach
+    @else
+        <p>No exam packages available.</p>
+    @endif
+</div>
 
 <!-- Modal for eSewa Payment -->
 <div class="modal fade" id="buyExamModal" tabindex="-1" aria-labelledby="buyExamModalLabel" aria-hidden="true">
