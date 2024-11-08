@@ -153,11 +153,11 @@
     </div>
 
     <div class="col-md-3">
-            <div class="alert alert-info text-center">
-                Time Remaining: <strong class="time-remaining" id="time-remaining"></strong>
-            </div>
+        <div class="alert alert-info text-center">
+            Time Remaining: <strong class="time-remaining" id="time-remaining"></strong>
         </div>
     </div>
+</div>
 
 <div class="row">
 <!-- Reading Questions Section -->
@@ -237,18 +237,23 @@
             if (--timer < 0) {
                 clearInterval(interval);
                 alert("Time's up! Your exam will be submitted.");
-                document.querySelector(".btn-submit").click(); // Auto-submit when time runs out
+                document.getElementById("submit-button").click();
             }
         }, 1000);
     }
 
     window.onload = function () {
-        let timeLimit = @json($timeLimitInSeconds); 
-        if (timeLimit) {
-            let display = document.querySelector('#time-remaining');
-            startTimer(timeLimit, display);
-        }
+        let timeLimit = {{ $timeLimit }}; // Time limit in seconds from backend
+        let display = document.querySelector('#time-remaining');
+        startTimer(timeLimit, display);
     };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        if (window.location.href.includes('exam/start/question')) {
+            document.getElementById('exam-page').classList.add('green-background');
+        }
+    });
+
 </script>
  
 </body>

@@ -89,8 +89,9 @@
 <div class="container mx-auto p-4">
     <div class="bg-blue-500 text-white p-2 rounded flex justify-between items-center">
         <div class="text-lg font-bold">{{ $quiz->title }}</div> <!-- Correct quiz title rendering -->
-        <div class="text-right">Time Remaining: <span id="timer">00:00</span></div>
-    </div>
+        <div class="text-right">
+            Time Remaining: <span id="timer">00:00</span>
+        </div>    </div>
 
     <div class="mt-4 bg-white p-4 rounded shadow question-container">
         <!-- Left column for question number, text, and media -->
@@ -179,7 +180,32 @@
         return confirm('You have completed the quiz. Are you sure you want to submit?');
     }
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get time duration from PHP (converted to seconds)
+        let timeRemaining = @json($timeDuration) * 60;
 
+        const timerElement = document.getElementById('timer');
+
+        function startTimer() {
+            const interval = setInterval(function () {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+
+                timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(interval);
+                    timerElement.textContent = "Time's up!";
+                }
+
+                timeRemaining--;
+            }, 1000);
+        }
+
+        startTimer();
+    });
+</script>
 
 
 </body>

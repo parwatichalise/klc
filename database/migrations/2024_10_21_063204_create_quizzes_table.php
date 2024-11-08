@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('heading');
             $table->string('sub_heading')->nullable();
-            $table->decimal('price', 8, 2);
-            $table->time('time_duration');
+            $table->decimal('price', 8, 2)->nullable();
+            $table->integer('time_duration');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
