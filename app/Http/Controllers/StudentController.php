@@ -50,6 +50,7 @@ class StudentController extends Controller
             ->firstOrFail();
 
          $timeDuration = $quiz->time_duration ?? 30;
+         $timeLimit = $quiz->time_duration * 60;
         $userAnswer = DB::table('user_answers')
             ->where('user_id', Auth::id())
             ->where('question_id', $question->id)
@@ -88,6 +89,7 @@ class StudentController extends Controller
             'unsolvedCount' => $unsolvedCount,
             'totalQuestions' => $totalQuestions,
             'timeDuration'=>$timeDuration,
+            'timeLimit' => $timeLimit, 
         ]);
     }
 

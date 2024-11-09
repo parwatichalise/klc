@@ -26,5 +26,14 @@ class UserResult extends Model
         'incorrect_count',
         'unsolved_count',
     ];
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function quiz()
+    {
+        return $this->belongsTo(Quiz::class);
+    }
 }
 

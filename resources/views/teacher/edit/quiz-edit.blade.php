@@ -33,7 +33,7 @@
 
         <div class="form-group">
             <label for="price">Price</label>
-            <input type="number" name="price" class="form-control" value="{{ old('price', $quiz->price) }}" required>
+            <input type="number" name="price" class="form-control" value="{{ old('price', $quiz->price) }}" >
         </div>
 
         <div class="form-group">

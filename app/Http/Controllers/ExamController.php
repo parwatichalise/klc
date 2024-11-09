@@ -64,7 +64,8 @@ class ExamController extends Controller
 
      $packageName = "Your Package Name"; 
      $imageUrl = "path/to/image.png"; 
-     $timeLimit = 3600;     
+     $timeLimit = 3600; 
+     $timeDuration = $quiz->time_duration;    
      return view('student.exam_start', [
          'studentName' => $user->firstname,
          'examTitle' => $examTitle, 
@@ -74,8 +75,11 @@ class ExamController extends Controller
          'unsolvedQuestions' => $unsolvedQuestions, 
          'packageName' => $packageName,
          'imageUrl' => $imageUrl,
-         'timeLimit' => $timeLimit,        
-         'quizId' => $quizId ]);
+         'timeLimit' => $timeLimit, 
+         'timeDuration'=>$timeDuration,       
+         'quizId' => $quizId,
+         'quiz' => $quiz,
+        ]);
  }
 
 

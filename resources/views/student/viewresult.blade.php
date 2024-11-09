@@ -42,33 +42,50 @@
 
 <!-- New Containers for Correct, Incorrect, and Unsolved -->
 <div class="grid grid-cols-3 gap-4 mt-6">
+    <!-- Correct Questions -->
     <div class="bg-green-100 border border-green-400 text-green-700 rounded-lg p-4 text-center">
         <h4 class="font-bold">Correct Questions</h4>
         <p class="text-2xl">{{ $totalCorrect }}</p>
         <ul class="list-disc list-inside mt-2">
             @foreach($correctQuestions as $question)
-                <li>Question {{ $question }}</li>
+                <li>
+                    <strong>Question number:{{ $question['number'] }}:</strong> {{ $question['text'] }} <br>
+                    @if(is_string($question['userAnswer']) && $question['userAnswer'] != 'No text answer')
+                        <em>Your Answer:</em> {{ $question['userAnswer'] }}
+                    @endif
+                </li>
             @endforeach
         </ul>
     </div>
+
+    <!-- Incorrect Questions -->
     <div class="bg-red-100 border border-red-400 text-red-700 rounded-lg p-4 text-center">
         <h4 class="font-bold">Incorrect Questions</h4>
         <p class="text-2xl">{{ $totalIncorrect }}</p>
         <ul class="list-disc list-inside mt-2">
             @foreach($incorrectQuestions as $question)
-                <li>Question {{ $question }}</li>
-            @endforeach
-        </ul>
-    </div>
-    <div class="bg-gray-100 border border-gray-400 text-gray-700 rounded-lg p-4 text-center">
-        <h4 class="font-bold">Unsolved</h4>
-        <p class="text-2xl">{{ $totalUnsolved }}</p>
-        <ul class="list-disc list-inside mt-2">
-            @foreach($unsolvedQuestions as $question)
-                <li>Question {{ $question }}</li>
-            @endforeach
-        </ul>
-    </div>
+                <li>
+                    <strong>Question number:{{ $question['number'] }}:</strong> {{ $question['text'] }} <br>
+                    @if(is_string($question['userAnswer']) && $question['userAnswer'] != 'No text answer')
+                    <em>Your Answer:</em> {{ $question['userAnswer'] }}
+                @endif
+            </li>
+        @endforeach
+    </ul>
+</div>
+
+<!-- Unsolved Questions -->
+<div class="bg-gray-100 border border-gray-400 text-gray-700 rounded-lg p-4 text-center">
+    <h4 class="font-bold">Unsolved</h4>
+    <p class="text-2xl">{{ $totalUnsolved }}</p>
+    <ul class="list-disc list-inside mt-2">
+        @foreach($unsolvedQuestions as $question)
+            <li>
+                <strong>Question number:{{ $question['number'] }}:</strong> {{ $question['text'] }}
+            </li>
+        @endforeach
+    </ul>
+</div>
 </div>
 
      </div>

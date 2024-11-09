@@ -20,18 +20,15 @@ class ResultController extends Controller
     $examId = $student->exam_id;
     $studentName = $student->username;
 
-    // Fetch the exam title
     $quiz = Quiz::find($quiz_id);
     $examTitle = $quiz ? $quiz->heading : 'Exam';
 
-    // Count questions based on quiz_id
     $totalQuestions = Question::where('quiz_id', $quiz_id)->count();
     $userAnswers = \DB::table('user_answers')
         ->where('user_id', $student->id)
         ->where('quiz_id', $quiz_id) 
         ->get();
 
-    // Count total attempts by checking if any of answer_text, answer_image, or answer_sound is filled
     $totalAttempt = $userAnswers->filter(function ($userAnswer) {
         return !is_null($userAnswer->answer_text) || !is_null($userAnswer->answer_image) || !is_null($userAnswer->answer_sound);
     })->count();
@@ -45,19 +42,23 @@ class ResultController extends Controller
     $unsolvedQuestions = [];
 
     foreach ($userAnswers as $userAnswer) {
+        $question = Question::find($userAnswer->question_id);
+        $questionText = $question ? $question->question_text : 'Unknown question';
+
         if (is_null($userAnswer->answer_text) && is_null($userAnswer->answer_image) && is_null($userAnswer->answer_sound)) {
-            $unsolvedQuestions[] = $userAnswer->question_number;
+            $unsolvedQuestions[] = [
+                'number' => $userAnswer->question_number,
+                'text' => $questionText,
+                'userAnswer' => 'Unanswered'
+            ];
         } else {
             $isCorrect = false;
-    
-            // Retrieve the correct answer for the question
             $answer = \DB::table('answers')
                 ->where('question_id', $userAnswer->question_id)
                 ->where('is_correct', true)
                 ->first();
-    
+
             if ($answer) {
-                // Check each answer field individually
                 if ($answer->answer_text && $answer->answer_text === $userAnswer->answer_text) {
                     $isCorrect = true;
                 } elseif ($answer->answer_image && $answer->answer_image === $userAnswer->answer_image) {
@@ -66,23 +67,30 @@ class ResultController extends Controller
                     $isCorrect = true;
                 }
             }
-    
+
             if ($isCorrect) {
-                $correctQuestions[] = $userAnswer->question_number;
+                $correctQuestions[] = [
+                    'number' => $userAnswer->question_number,
+                    'text' => $questionText,
+                    'userAnswer' => $userAnswer->answer_text ?? 'No text answer'
+                ];
                 $totalCorrect++;
             } else {
-                $incorrectQuestions[] = $userAnswer->question_number;
+                $incorrectQuestions[] = [
+                    'number' => $userAnswer->question_number,
+                    'text' => $questionText,
+                    'userAnswer' => $userAnswer->answer_text ?? 'No text answer'
+                ];
                 $totalIncorrect++;
             }
         }
     }
-    
+
     $percentage = $totalQuestions > 0 ? round(($totalCorrect / $totalQuestions) * 100, 2) : 0;
     $resultMessage = $percentage >= 50 
         ? 'Congratulations, you passed the exam.' 
         : 'You have failed the exam. Better luck next time.';
 
-    // Save results to user_results table
     UserResult::create([
         'name' => $studentName,
         'exam_id' => $examId,
@@ -138,21 +146,22 @@ class ResultController extends Controller
 public function showResults()
 {
     $student = Auth::user();
-   
     $studentName = $student->username;
 
     // Retrieve the result data for the student
     $resultData = DB::table('user_results')->get();
 
-    // Clear the user_answers table for the logged-in user
+    // Clear the user_answers table for the logged-in user after the result is published
     DB::table('user_answers')
-        ->where('user_id', $student->id)  // Add condition to only delete the current user's answers
+        ->where('user_id', $student->id)
         ->delete();
+
+    // Clear the session data for all quiz answers for this student
+    session()->forget('answer');
 
     // Pass both $resultData and $studentName to the view
     return view('student.result', compact('resultData', 'studentName'));
 }
-
 
 
 public function deleteResult($id)

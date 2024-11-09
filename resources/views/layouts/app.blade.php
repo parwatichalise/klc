@@ -160,16 +160,14 @@
             
           </li>
 
-          <!-- Results Menu Item -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-poll"></i>
-              <p>Results</p>
-            </a>
-            <ul class="nav nav-treeview">
-              <!-- Add sub-menu items if needed -->
-            </ul>
-          </li>
+         <!-- Results Menu Item -->
+<li class="nav-item">
+  <a href="{{ route('admin.student.results') }}" class="nav-link">
+      <i class="nav-icon fas fa-poll"></i>
+      <p>Results</p>
+  </a>
+</li>
+
 
            <!-- Results Menu Item -->
            <li class="nav-item">

@@ -152,6 +152,7 @@
     <a href="{{ route('start.exam', ['examTitle' => $quiz->heading]) }}" class="bg-blue-400 text-black p-2 rounded nav-button">
         Total Questions: {{ $totalQuestions }}
     </a>
+    
 
     @if ($nextQuestionNumber)
         <button type="submit" form="quizForm" class="bg-blue-500 text-white p-2 rounded nav-button">Next</button>
@@ -159,6 +160,9 @@
         <button type="submit" form="quizForm" class="bg-blue-500 text-white p-2 rounded nav-button" onclick="return confirmSubmit()">Submit</button>
     @endif
 </div>
+<!-- Restart Exam Button -->
+<a href="{{ route('start.exam', ['examTitle' => $quiz->heading]) }}" class="bg-blue-500 text-white p-2 rounded" onclick="localStorage.setItem('restartExam', true);">Restart Exam</a>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -180,33 +184,73 @@
         return confirm('You have completed the quiz. Are you sure you want to submit?');
     }
 </script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Get time duration from PHP (converted to seconds)
-        let timeRemaining = @json($timeDuration) * 60;
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the quiz time duration (in minutes) from the server
+        let timeLimit = @json($timeDuration) * 60; // $timeDuration is the quiz time duration in minutes
+        
+        // Retrieve start time and remaining time from localStorage
+        let startTime = localStorage.getItem('startTime');
+        let timeRemaining = localStorage.getItem('timeRemaining');
 
-        const timerElement = document.getElementById('timer');
+        // Reset timer if this is a new attempt or if the start time is not saved
+        if (!startTime || localStorage.getItem('restartExam')) {
+            // Set start time and initialize time remaining
+            startTime = Date.now();
+            timeRemaining = timeLimit;
+            localStorage.setItem('startTime', startTime);
+            localStorage.setItem('timeRemaining', timeRemaining);
 
-        function startTimer() {
-            const interval = setInterval(function () {
-                const minutes = Math.floor(timeRemaining / 60);
-                const seconds = timeRemaining % 60;
+            // Remove restart flag if any
+            localStorage.removeItem('restartExam');
+        } else {
+            // Calculate the elapsed time
+            let elapsedTime = Math.floor((Date.now() - startTime) / 1000); // in seconds
+            timeRemaining = timeRemaining - elapsedTime;
 
-                timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            // Ensure time remaining doesn't go below zero
+            if (timeRemaining <= 0) {
+                timeRemaining = 0;
+            }
 
-                if (timeRemaining <= 0) {
-                    clearInterval(interval);
-                    timerElement.textContent = "Time's up!";
-                }
-
-                timeRemaining--;
-            }, 1000);
+            // Update the remaining time in localStorage
+            localStorage.setItem('timeRemaining', timeRemaining);
         }
 
-        startTimer();
+        // Timer display element
+        const timerElement = document.getElementById('timer');
+        
+        // Start the countdown timer
+        const interval = setInterval(function () {
+            const minutes = Math.floor(timeRemaining / 60); // minutes left
+            const seconds = timeRemaining % 60; // seconds left
+
+            // Display the time in MM:SS format
+            timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            // When time is up, submit the form and redirect to exam summary
+            if (timeRemaining <= 0) {
+                clearInterval(interval); // stop the countdown
+                timerElement.textContent = "Time's up!";
+
+                // Automatically submit the quiz form
+                document.getElementById("quizForm").submit();
+
+                // Redirect to the exam summary page after 1 second delay
+                setTimeout(function () {
+                    window.location.href = "{{ route('exam.summary', ['quiz_id' => $quiz->id]) }}"; // Correct the route if needed
+                }, 1000); // Delay for 1 second
+            }
+
+            // Decrease time remaining by 1 second
+            timeRemaining--;
+
+            // Save the updated time remaining in localStorage
+            localStorage.setItem('timeRemaining', timeRemaining);
+        }, 1000);
     });
 </script>
-
 
 </body>
 </html>

@@ -11,8 +11,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ResultController;
-use App\Http\Controllers\ViewExamController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\AdminResultController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\PaymentController;
@@ -87,9 +87,7 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 Route::get('/result', [ResultController::class, 'showResult'])->name('student.result');
 
 Route::get('/viewresult/{quiz_id}', [ResultController::class, 'showViewResult'])->name('student.viewresult');
-
-Route::get('/studentresult', [ResultController::class, 'showStudentResults'])->name('student.results');
-
+Route::get('/student/results', [ResultController::class, 'showStudentResults'])->name('student.results');
 Route::delete('/studentresult/{id}', [ResultController::class, 'deleteStudentResult'])->name('student.result.delete');
 
 
@@ -137,8 +135,6 @@ Route::get('/examview', function () {
     return view('student.examview'); 
 })->name('examview');
 
-Route::get('/examview', [ViewExamController::class, 'showExamView'])->name('examview');
-
 Route::post('/payment/toggle-status/{id}', [PaymentController::class, 'toggleStatus'])->name('payment.toggleStatus');
 
 Route::post('/quizzes/{quiz_id}/questions/{question_id}/answer', [StudentController::class, 'saveAnswer'])->name('questions.answer');
@@ -147,7 +143,6 @@ Route::post('/questions/answer/{quiz_id}/{question_id}', [QuestionController::cl
 
 // Define the route and give it the name 'student.result'
 Route::get('/student/result', [ResultController::class, 'showResults'])->name('student.result');
-
 // Delete result route
 Route::delete('/student/result/delete/{id}', [ResultController::class, 'deleteResult'])->name('student.result.delete');
 
@@ -156,3 +151,7 @@ Route::get('/available-exams', [StudentController::class, 'showAvailableExams'])
 Route::get('/exam/view/{packageName}', [StudentController::class, 'showViews'])->name('exam.showViews');
 
 Route::get('/results', [StudentController::class, 'showResults'])->name('result');
+// Routes for admin-specific functionality
+Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
+    Route::get('/student/results', [AdminResultController::class, 'showStudentResults'])->name('admin.student.results');
+});
