@@ -10,7 +10,7 @@ class Student extends Model
     use HasFactory;
     
    
-    protected $table = 'students'; // This is the table name in the database
+    protected $table = 'students'; 
 
     protected $fillable = ['name', 'email', 'password']; 
 }

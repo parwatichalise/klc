@@ -9,13 +9,11 @@
                 <h3>ADMIN PROFILE</h3>
             </div>
 
-            <!-- Profile Edit Form -->
             <form action="{{ route('admin.updateProfile') }}" method="POST">
                 @csrf
-                @method('PUT') <!-- Use PUT for updating existing data -->
+                @method('PUT') 
 
                 <div class="row mt-4">
-                    <!-- First Name and Last Name -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="firstName">First Name</label>
@@ -31,7 +29,6 @@
                 </div>
 
                 <div class="row">
-                    <!-- Email and Username -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -47,7 +44,6 @@
                 </div>
 
                 <div class="row">
-                    <!-- Contact and Role -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="contact">Contact</label>

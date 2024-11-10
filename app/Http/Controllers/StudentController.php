@@ -107,13 +107,11 @@ class StudentController extends Controller
             $question->options()->where('id', $request->input('answer'))->value('answer_text') : 
             null;
     
-        // Get the media fields for the question and answer
         $questionImage = $question->question_image;
         $questionSound = $question->question_sound;
         $answerImage = $request->input('answer') ? $question->options()->where('id', $request->input('answer'))->value('answer_image') : null;
         $answerSound = $request->input('answer') ? $question->options()->where('id', $request->input('answer'))->value('answer_sound') : null;
     
-        // Insert or update the answer in the user_answers table 
         DB::table('user_answers')->updateOrInsert(
             [
                 'user_id' => Auth::id(),
@@ -155,21 +153,17 @@ class StudentController extends Controller
         $examId = $user->exam_id;
         $studentName = $user->username;
     
-        // Fetch the user's answers for the quiz
         $userAnswers = DB::table('user_answers')
             ->where('user_id', $user->id)
             ->where('quiz_id', $quiz_id)
             ->get();
     
-        // Fetch the total number of questions for the quiz
         $totalQuestions = DB::table('questions')->where('quiz_id', $quiz_id)->count();
     
-        // Calculate total attempts
         $totalAttempt = $userAnswers->filter(function ($answer) {
             return $answer->answer_text !== null || $answer->answer_image !== null || $answer->answer_sound !== null;
         })->count();
     
-        // Calculate total correct answers
         $totalCorrect = 0;
         foreach ($userAnswers as $userAnswer) {
             $answer = Answer::where('question_id', $userAnswer->question_id)
@@ -186,7 +180,6 @@ class StudentController extends Controller
             }
         }
     
-        // Prepare the exam details array
         $examDetails = [
             'totalQuestions' => $totalQuestions,
             'totalAttempt' => $totalAttempt,
@@ -194,7 +187,6 @@ class StudentController extends Controller
             'percentage' => $totalQuestions > 0 ? ($totalCorrect / $totalQuestions) * 100 : 0.00,
         ];
     
-        // Fetch the exam title (using 'heading' instead of 'title')
         $quiz = Quiz::find($quiz_id);
         $examTitle = $quiz ? $quiz->heading : 'Exam';
     
@@ -217,15 +209,12 @@ class StudentController extends Controller
     $student = Student::first();
     $user = Auth::user();
 
-    // Fetch the package by name to get its ID
     $package = Package::where('name', $packageName)->first();
 
-    // Check if the package exists
     if (!$package) {
         return redirect()->back()->withErrors(['Package not found.']);
     }
 
-    // Fetch quizzes related to the package
     $packageQuizzes = Quiz::where('package_id', $package->id)->get();
 
     return view('student.examview', [
@@ -242,17 +231,15 @@ public function showAvailableExams(Request $request)
 {
     $student = auth::user();
 
-    // Check if the user is authenticated
     if (!$student) {
-        return redirect()->route('login'); // Redirect if not authenticated
+        return redirect()->route('login');
     }
 
     $studentName = $student->firstname; 
     $packageId = $request->query('package_id'); 
 
-    // Fetch active quizzes associated with the package and ensure the package_id is not null
     $quizzes = Quiz::where('package_id', '!=', null)
-                   ->active() // Use the scope here
+                   ->active() 
                    ->with('tags')
                    ->paginate(10);
 

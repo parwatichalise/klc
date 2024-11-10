@@ -20,7 +20,6 @@ class ExamController extends Controller
         $user = Auth::user();
         $examId = 'N/A';
 
-        // Generate or fetch existing exam ID for the user
         if ($user) {
             if (!$user->exam_id) {
                 $examId = $this->generateExamId($user);
@@ -30,7 +29,6 @@ class ExamController extends Controller
                 $examId = $user->exam_id;
             }
         }
-        // Reset solved count to 0 and clear user_answers session upon login
         session(['solvedCount' => 0]);
 
         return view('student.exam', [
@@ -40,13 +38,11 @@ class ExamController extends Controller
         ]);
     }
 
-    // Generates a unique exam ID
     private function generateExamId($user)
     {
         return 'EXAM-' . $user->id . strtoupper(Str::random(3));
     }
 
- // Function to start the exam and pass data to the view
  public function startExam($examTitle)
  {
      $user = Auth::user(); 
@@ -82,36 +78,26 @@ class ExamController extends Controller
         ]);
  }
 
-
-    // Function to show an individual question
     public function showQuestion($id)
     {
-        // Fetch the question by ID
         $question = Question::findOrFail($id);
 
-        // Return the view to display the question
         return view('student.show_question', compact('question'));
     }
 
-    // Function to show the exam summary with the list of questions and status
     public function showExam($examTitle)
     {
-        // Fetch the quiz details using the title
         $quiz = Quiz::where('heading', $examTitle)->first();
 
-        // Redirect if the quiz is not found
         if (!$quiz) {
             return redirect()->back()->withErrors(['message' => 'Quiz not found.']);
         }
 
-        // Define total questions based on the exam type (custom logic for 'Color Vision Test')
         $totalQuestions = strcasecmp(trim($examTitle), 'Color Vision Test') === 0 ? 20 : 40;
 
-        // Assuming a way to track solved questions
-        $solvedQuestions = 0; // Replace this with the actual count of solved questions
+        $solvedQuestions = 0; 
         $unsolvedQuestions = $totalQuestions - $solvedQuestions;
 
-        // Pass the data to the exam view
         return view('student.show_exam', [
             'quiz' => $quiz,
             'totalQuestions' => $totalQuestions,
@@ -125,7 +111,6 @@ class ExamController extends Controller
 
     public function result(Request $request)
     {
-        // Validate incoming data
         $request->validate([
             'examTitle' => 'required|string',
             'score' => 'required|integer',
@@ -135,7 +120,6 @@ class ExamController extends Controller
         $examTitle = $request->input('examTitle');
         $score = $request->input('score'); 
     
-        // Get the logged-in user and save the result
         $user = Auth::user();
         if ($user) {
             $result = new Result();
@@ -145,11 +129,9 @@ class ExamController extends Controller
             $result->save();
         }
     
-        // Calculate percentage
-        $totalQuestions = 50; // Replace with your logic to get total questions
+        $totalQuestions = 50; 
         $percentage = ($score / $totalQuestions) * 100;
     
-        // Redirect to the result page with score and exam title, using with() to flash data
         return redirect()->route('result', ['examTitle' => $examTitle])->with([
             'examTitle' => $examTitle,
             'percentage' => $percentage,
@@ -159,16 +141,13 @@ class ExamController extends Controller
     
     public function showResult(Request $request)
     {
-        // Retrieve the flashed data from the session
         $examTitle = session('examTitle');
         $percentage = session('percentage');
     
-        // Check if data exists
         if (!$examTitle || !$percentage) {
             return redirect()->route('student.dashboard'); 
         }
     
-        // Pass the data to the view
         return view('student.result', compact('examTitle', 'percentage'));
     }
     

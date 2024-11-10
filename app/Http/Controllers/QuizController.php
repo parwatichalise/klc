@@ -14,7 +14,6 @@ class QuizController extends Controller
     public function index()
     {
         $quizzes = Quiz::with('tags')->paginate(10);
-        // Directly check the user's role
         $view = Auth::user() && Auth::user()->role === 'admin' ? 'admin.list.quiz-list' : 'teacher.list.quiz-list';
         return view($view, compact('quizzes'));
     }
@@ -23,7 +22,6 @@ class QuizController extends Controller
     {
         $tags = Tag::all();
         $packages = Package::all();
-        // Directly check the user's role
         $view = Auth::user() && Auth::user()->role === 'admin' ? 'admin.create.quiz' : 'teacher.create.quiz';
         return view($view, compact('tags', 'packages'));        
     }
@@ -61,7 +59,6 @@ class QuizController extends Controller
     {
         $tags = Tag::all(); 
         $packages = Package::all();        
-        // Directly check the user's role
         $view = Auth::user() && Auth::user()->role === 'admin' ? 'admin.edit.quiz-edit' : 'teacher.edit.quiz-edit';
         return view($view, compact('quiz', 'tags','packages'));
     }

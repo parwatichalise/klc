@@ -16,7 +16,6 @@ class LoginController extends Controller
    
     public function store(Request $request): RedirectResponse
 {
-    // Validate the incoming request
     $request->validate([
         'email' => 'required|email',
         'password' => 'required|string|min:6',
@@ -29,19 +28,17 @@ class LoginController extends Controller
 
       
 
-// Add to login function
 Session::forget('answered_questions');
 Session::put('solved_count', 0);
 
  
 
-        // Check the role of the authenticated user
         if (Auth::user()->role === 'admin') {
-            return redirect()->route('admin.dashboard'); // Redirect to admin dashboard
+            return redirect()->route('admin.dashboard');
         } elseif (Auth::user()->role === 'user' || Auth::user()->role === 'student') {
-            return redirect()->route('student.dashboard'); // Redirect to user page
+            return redirect()->route('student.dashboard'); 
         } elseif (Auth::user()->role === 'teacher') {
-            return redirect()->route('teacher.profile'); // Redirect to teacher dashboard
+            return redirect()->route('teacher.profile'); 
         }
     }
 
@@ -53,7 +50,6 @@ Session::put('solved_count', 0);
 
     public function logout(Request $request): RedirectResponse
     {
-        // Delete user answers for the current session
         DB::table('user_answers')->where('user_id', Auth::id())->delete();
 
         Auth::logout();

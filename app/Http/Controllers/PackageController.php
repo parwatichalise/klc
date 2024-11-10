@@ -12,7 +12,6 @@ class PackageController extends Controller
     {
         $packages = Package::paginate(10);
     
-        // Directly check the user's role
         if (Auth::user() && Auth::user()->role === 'admin') {
             return view('admin.create.package', compact('packages'));
         } else {

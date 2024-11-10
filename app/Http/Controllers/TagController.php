@@ -14,8 +14,8 @@ class TagController extends Controller
     {
         $tags = Tag::with('creator', 'updater')->paginate(10);  
         
-        if (Auth::user() && Auth::user()->role === 'admin') { // Directly check the role
-            return view('admin.list.tag-list', compact('tags')); // Pass 'tags' here
+        if (Auth::user() && Auth::user()->role === 'admin') { 
+            return view('admin.list.tag-list', compact('tags')); 
         } else {
             return view('teacher.list.tag-list', compact('tags'));
         }
@@ -23,13 +23,13 @@ class TagController extends Controller
     
     public function create()
     {
-        $studentName = Auth::user()->name; // Get the student's name*/
+        $studentName = Auth::user()->name; 
         
         
-        $quizzes = Quiz::with('tags')->get(); // Fetch all quizzes with their tags
+        $quizzes = Quiz::with('tags')->get();
         
         if (Auth::user() && Auth::user()->role === 'admin') {
-            return view('admin.create.tag', compact('quizzes')); // Pass quizzes
+            return view('admin.create.tag', compact('quizzes')); 
         } else {
             return view('teacher.create.tag', compact('quizzes', 'studentName')); // Pass quizzes and student's name
         }
@@ -42,14 +42,14 @@ class TagController extends Controller
         $request->validate([
             'name' => 'required|string|max:255', 
         ]);
-        Tag::create(['name' => $request->name, 'created_by' => Auth::id()]); // Use Auth::id()
+        Tag::create(['name' => $request->name, 'created_by' => Auth::id()]); 
 
         return redirect()->route('tags.index')->with('success', 'Tag created successfully');
     }
 
     public function edit(Tag $tag)
     {
-        if (Auth::user() && Auth::user()->role === 'admin') { // Directly check the role
+        if (Auth::user() && Auth::user()->role === 'admin') { 
             return view('admin.edit.tag-edit', compact('tag'));
         } else {
             return view('teacher.edit.tag-edit', compact('tag'));
@@ -62,9 +62,8 @@ class TagController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        // Update the tag
         $tag->name = $request->input('name');
-        $tag->updated_by = Auth::id(); // Use Auth::id() 
+        $tag->updated_by = Auth::id(); 
         $tag->save();
 
         return redirect()->route('tags.index')->with('success', 'Tag updated successfully.');

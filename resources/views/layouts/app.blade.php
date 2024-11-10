@@ -5,25 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard</title>
 
-  <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="{{ asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback') }}">
-<!-- Font Awesome -->
 <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
-<!-- Ionicons -->
 <link rel="stylesheet" href="{{ asset('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
-<!-- Tempusdominus Bootstrap 4 -->
 <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-<!-- iCheck -->
 <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-<!-- JQVMap -->
 <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
-<!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
-<!-- overlayScrollbars -->
 <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-<!-- Daterange picker -->
 <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
-<!-- Summernote -->
 <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 
 </head>
@@ -31,12 +21,10 @@
   
 <div class="wrapper">
 
-  <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
 
-  <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -50,7 +38,6 @@
       </li>
     </ul>
   
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -62,9 +49,7 @@
       </li>
     </ul>
   </nav>
-  <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -76,10 +61,8 @@
         </div>
       </div>
 
-      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Profile Menu Item -->
           <li class="nav-item menu-open">
             <a href="{{ route('admin.dashboard') }}" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
@@ -87,7 +70,6 @@
             </a>
           </li>
 
-          <!-- Create Menu Item -->
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
@@ -121,7 +103,6 @@
             </ul>
           </li>
 
-          <!-- List Update Menu Item -->
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-list"></i>
@@ -151,7 +132,6 @@
             </ul>
           </li>
 
-          <!-- Settings Menu Item -->
           <li class="nav-item">
             <a href="{{ route('user.list') }}" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
@@ -160,7 +140,6 @@
             
           </li>
 
-         <!-- Results Menu Item -->
 <li class="nav-item">
   <a href="{{ route('admin.student.results') }}" class="nav-link">
       <i class="nav-icon fas fa-poll"></i>
@@ -168,8 +147,6 @@
   </a>
 </li>
 
-
-           <!-- Results Menu Item -->
            <li class="nav-item">
            <a href="{{ route('payment.index') }}" class="nav-link">
            <i class="nav-icon fas fa-credit-card"></i>
@@ -178,7 +155,6 @@
         </li>
 
             <ul class="nav nav-treeview">
-              <!-- Add sub-menu items if needed -->
             </ul>
           </li>
 
@@ -189,14 +165,12 @@
     </div>
   </aside>
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Dashboard</h1> <!-- You can add a title here -->
+            <h1>Dashboard</h1> 
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -205,26 +179,19 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        @yield('content') <!-- Content will be injected here -->
       </div>
     </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
 
-  <!-- Control Sidebar -->
+    <section class="content">
+      <div class="container-fluid">
+        @yield('content') 
+      </div>
+    </section>
+  </div>
+
   <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
   </aside>
-  <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
 
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>

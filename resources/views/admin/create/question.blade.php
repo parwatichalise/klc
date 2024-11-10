@@ -4,12 +4,10 @@
 
 @section('content')
 <div class="container mt-5">
-    <!-- Success message -->
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <!-- Display errors -->
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -27,11 +25,9 @@
         </div>
 
         <div class="card-body">
-            <!-- Form for creating a question -->
             <form action="{{ route('questions.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <!-- Quiz dropdown -->
                 <div class="form-group mb-3">
                     <label for="quiz" class="form-label fw-bold">Quiz</label>
                     <select id="quiz" name="quiz" class="form-select" required>
@@ -92,7 +88,6 @@
                 </select>
             </div>
 
-            <!-- Text options -->
             <div id="text-options" class="mb-3" style="display: none;">
                 <label class="form-label">Text Options</label>
                 <input type="text" class="form-control mb-2" name="option1" placeholder="Option 1" value="{{ old('option1') }}">
@@ -101,7 +96,6 @@
                 <input type="text" class="form-control mb-2" name="option4" placeholder="Option 4" value="{{ old('option4') }}">
             </div>
 
-            <!-- Image options -->
             <div id="image-options" class="mb-3" style="display: none;">
                 <label for="image_option" class="form-label">Upload Image Options</label>
                 <input type="file" class="form-control mb-2" name="image_option1" accept="image/*">
@@ -110,7 +104,6 @@
                 <input type="file" class="form-control mb-2" name="image_option4" accept="image/*">
             </div>
 
-            <!-- Audio options -->
             <div id="audio-options" class="mb-3" style="display: none;">
                 <label for="audio_option" class="form-label">Upload Audio Options</label>
                 <input type="file" class="form-control mb-2" name="audio_option1" accept="audio/*">
@@ -119,7 +112,6 @@
                 <input type="file" class="form-control mb-2" name="audio_option4" accept="audio/*">
             </div>
 
-            <!-- Correct option selection -->
             <div class="mb-3">
                 <label for="correct_option" class="form-label">Select Correct Option</label>
                 <select class="form-select" id="correct_option" name="correct_option" required>
@@ -130,14 +122,12 @@
                 </select>
             </div>
 
-            <!-- Submit button -->
             <button type="submit" class="btn btn-success">Submit Question</button>
         </div>
     </div>
     </form>
 </div>
 
-<!-- Script to toggle answer fields based on input type -->
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
     ClassicEditor
@@ -156,7 +146,6 @@
 
     if (inputType === 'text') {
         document.getElementById('text-options').style.display = 'block';
-        // Reset other fields
         document.querySelectorAll('#image-options input, #audio-options input').forEach(input => input.value = '');
     } else if (inputType === 'image') {
         document.getElementById('image-options').style.display = 'block';
@@ -166,7 +155,6 @@
         document.querySelectorAll('#text-options input, #image-options input').forEach(input => input.value = '');
     }
 }
-    // Run toggleInputFields on page load to retain previous state
     document.addEventListener('DOMContentLoaded', function () {
         toggleInputFields();
     });

@@ -18,7 +18,6 @@ class QuestionController extends Controller
     {
         $question = new Question();
         $quizzes = Quiz::all();  
-        // Directly check the user's role
         if (Auth::user() && Auth::user()->role === 'admin') {
             return view('admin.create.question', compact('question', 'quizzes'));
         } else {
@@ -26,10 +25,8 @@ class QuestionController extends Controller
         }
     }
 
-   // Store method to handle question creation
     public function store(Request $request)
     {
-        // Validation
         $request->validate([
             'quiz' => 'required|exists:quizzes,id',
             'question_number' => 'required|integer',
@@ -54,7 +51,6 @@ class QuestionController extends Controller
             'audio_option4' => 'required_if:input_type,audio|mimes:mp3,wav,ogg|max:2048',
         ]);
 
-        // Create the question
         $question = Question::create([
             'quiz_id' => $request->quiz,
             'question_number' => $request->question_number,
@@ -65,14 +61,11 @@ class QuestionController extends Controller
             'question_sound' => $request->hasFile('question_sound') ? $request->file('question_sound')->store('question_sounds', 'public') : null,
         ]);
 
-        // Store the answer options
         $this->storeOptions($request, $question->id);
 
         return redirect()->route('questions.index')->with('success', 'Question created successfully!');
     }
 
-
-    // Store options related to the question
     protected function storeOptions(Request $request, $questionId)
     {
         for ($i = 1; $i <= 4; $i++) {
@@ -96,40 +89,32 @@ class QuestionController extends Controller
         }
     }
     
-
-    // Displaying the list of questions
     public function index(Request $request)
     {
         $search = $request->input('search');
         $quizzes = Quiz::all();
 
-        // Search logic
         if ($search) {
             $questions = Question::where('question_text', 'like', '%' . $search . '%')->with('answers')->get();
         } else {
             $questions = Question::with('answers')->get();
         }
 
-        // Checking if the user is an admin or teacher
         if (Auth::user() && Auth::user()->role === 'admin') {
-            return view('admin.list.question-list', compact('questions', 'quizzes')); // Update the view path as needed
+            return view('admin.list.question-list', compact('questions', 'quizzes')); 
         } else {
-            return view('teacher.list.question-list', compact('questions', 'quizzes')); // Update the view path as needed
+            return view('teacher.list.question-list', compact('questions', 'quizzes')); 
         }
     }
 
-
-    // Fetching questions by quiz ID
     public function fetchQuestions($quizId)
     {
         $questions = Question::with('answers')->where('quiz_id', $quizId)->get();
 
-        // If no questions found, return an empty response
         if ($questions->isEmpty()) {
             return response()->json([], 200);
         }
 
-        // Adding correct answer label to the questions
         foreach ($questions as $question) {
             foreach ($question->answers as $key => $answer) {
                 if ($answer->is_correct) {
@@ -142,13 +127,11 @@ class QuestionController extends Controller
         return response()->json($questions);
     }
 
-    // Edit question
     public function edit($id)
     {
         $question = Question::findOrFail($id);    
         $quizzes = Quiz::all();
 
-        // Returning the edit view based on the user role
         if (Auth::user() && Auth::user()->role === 'admin') {
             return view('admin.edit.question-edit', compact('quizzes', 'question'));
         } else {
@@ -156,10 +139,8 @@ class QuestionController extends Controller
         }
     }
 
-    // Update the question details
     public function update(Request $request, $id)
     {
-        // Validation of the update request
         $request->validate([
             'quiz' => 'required|exists:quizzes,id',
             'question_number' => 'required|integer',
@@ -175,7 +156,6 @@ class QuestionController extends Controller
             'question_sound' => 'nullable|mimes:mp3,wav|max:2048',
         ]);
 
-        // Find the question by ID and update it
         $question = Question::findOrFail($id);
         $question->quiz_id = $request->quiz;
         $question->question_number = $request->question_number;
@@ -195,24 +175,19 @@ class QuestionController extends Controller
 
         $question->save();
 
-        // Update the answer options
         $this->updateOptions($request, $question->id);
 
         return redirect()->route('questions.index')->with('success', 'Question updated successfully!');
     }
 
-
-    // Handle file uploads
     protected function handleFileUpload(Request $request, $inputName, $folder)
     {
         return $request->file($inputName)->store($folder . '/uploads', 'public');
     }
 
-
-    // Update the answer options
     protected function updateOptions(Request $request, $questionId)
     {
-        Answer::where('question_id', $questionId)->delete(); // Remove old options
+        Answer::where('question_id', $questionId)->delete(); 
 
         for ($i = 1; $i <= 4; $i++) {
             $answerType = $request->input('input_type');
@@ -237,59 +212,44 @@ class QuestionController extends Controller
             ]);
         }
     }
-
-
-    // Delete a question
     public function destroy($id)
     {
         $question = Question::findOrFail($id);
-        // Delete associated files
         Storage::delete('public/' . $question->question_image);
         Storage::delete('public/' . $question->question_sound);
         
-        // Delete question and its answers
         Answer::where('question_id', $id)->delete();
         $question->delete();
 
         return redirect()->route('questions.index')->with('success', 'Question deleted successfully!');
     }
 
-
-    //options
     public function show($id)
     {
-        // Fetch the question along with its answers
         $question = Question::with('answers')->findOrFail($id);
         
-        // Assuming you want to get the user's answer, if applicable
         $userAnswer = auth::user()->answers()->where('question_id', $id)->first();
 
-        // Pass the question and user answer to the view
         return view('student.question-detail', compact('question', 'userAnswer'));
     }
 
     public function submitAnswer(Request $request, $quiz_id, $question_id)
     {
-        // Validate the request
         $request->validate([
             'answer' => 'nullable|exists:answers,id',
         ]);
     
-        // Fetch the question using question_id
         $question = Question::findOrFail($question_id);
     
-        // Get the selected answer text using the answer ID if provided
         $selectedAnswerText = $request->input('answer')
             ? $question->answers()->where('id', $request->input('answer'))->value('answer_text')
             : null;
     
-        // Get the media fields for the question and answer
-        $questionImage = $question->question_image; // Assuming you have these columns in your Question model
+        $questionImage = $question->question_image; 
         $questionSound = $question->question_sound;
         $answerImage = $request->input('answer') ? $question->answers()->where('id', $request->input('answer'))->value('answer_image') : null;
         $answerSound = $request->input('answer') ? $question->answers()->where('id', $request->input('answer'))->value('answer_sound') : null;
     
-        // Insert or update the answer in the user_answers table 
         DB::table('user_answers')->updateOrInsert([
             'user_id' => Auth::id(),
             'question_id' => $question->id,
@@ -306,10 +266,8 @@ class QuestionController extends Controller
             'updated_at' => now(),
         ]);
     
-        // Store the selected answer in the session
         session(["answer.{$quiz_id}.{$question->id}" => $request->input('answer')]);
     
-        // Redirect to the next question or stay on the last question
         $totalQuestions = Question::where('quiz_id', $quiz_id)->count();
         if ($question->question_number < $totalQuestions) {
             return redirect()->route('student.showQuestion', [

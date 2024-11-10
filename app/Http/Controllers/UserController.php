@@ -14,7 +14,7 @@ class UserController extends Controller
     
 public function list()
 {
-    $users = User::all(); // Fetch all users, adjust as needed for your application logic
+    $users = User::all(); 
     return view('user.list', compact('users'));
 }
 

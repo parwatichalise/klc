@@ -124,15 +124,13 @@ class ResultController extends Controller
     
     public function showStudentResults()
     {
-        // Fetch results from the user_results table
-        $results = UserResult::all(); // Adjust as needed to filter or paginate results
+        $results = UserResult::all(); 
 
         return view('teacher.studentResult', compact('results'));
     }
 
     public function deleteStudentResult($id)
 {
-    // Find the result by ID and delete it
     $result = UserResult::find($id);
 
     if ($result) {
@@ -148,29 +146,23 @@ public function showResults()
     $student = Auth::user();
     $studentName = $student->username;
 
-    // Retrieve the result data for the student
     $resultData = DB::table('user_results')->get();
 
-    // Clear the user_answers table for the logged-in user after the result is published
     DB::table('user_answers')
         ->where('user_id', $student->id)
         ->delete();
 
-    // Clear the session data for all quiz answers for this student
     session()->forget('answer');
 
-    // Pass both $resultData and $studentName to the view
     return view('student.result', compact('resultData', 'studentName'));
 }
 
 
 public function deleteResult($id)
     {
-        // Find the result by ID and delete it
         $result = UserResult::findOrFail($id);
         $result->delete();
 
-        // Redirect back to the result page with a success message
         return redirect()->route('student.result')->with('success', 'Result deleted successfully.');
     }
 

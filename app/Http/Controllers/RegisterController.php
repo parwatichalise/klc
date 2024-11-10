@@ -15,7 +15,6 @@ class RegisterController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        // Validate the incoming request
         $request->validate([
             'email' => 'required|email|unique:users,email',
             'username' => 'required|string|unique:users,username',
@@ -25,18 +24,16 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        // Create the user with the role set to 'user'
         User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'username' => $request->username,
             'email' => $request->email,
             'contact' => $request->contact,
-            'password' => Hash::make($request->password), // Hash the password
-            'role' => 'user', // Set role to 'user' by default
+            'password' => Hash::make($request->password), 
+            'role' => 'user', 
         ]);
 
-        // Redirect to a desired location (e.g., login page or user dashboard)
         return redirect()->route('login')->with('success', 'Registration successful. You can now log in.');
     }
 }

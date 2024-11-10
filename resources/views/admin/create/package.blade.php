@@ -66,6 +66,6 @@
         </tbody>
     </table>
 
-    {{ $packages->links() }} <!-- Pagination links -->
+    {{ $packages->links() }}
 </div>
 @endsection

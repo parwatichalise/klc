@@ -1,12 +1,10 @@
-@extends('layouts.app') <!-- Extends the layout file -->
+@extends('layouts.app') 
 
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <!-- Page header, optional -->
             <h2 class="text-center">Payments List</h2>
-            <!-- Payment table -->
             <div class="table-responsive">
                 <table class="table table-bordered table-striped text-center">
                     <thead>

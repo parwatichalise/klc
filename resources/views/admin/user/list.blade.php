@@ -1,4 +1,4 @@
-@extends('layouts.app') <!-- Ensure this extends your admin layout -->
+@extends('layouts.app') 
 
 @section('title', 'User List')
 
