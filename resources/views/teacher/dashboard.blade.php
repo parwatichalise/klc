@@ -175,9 +175,7 @@
               <p>Results</p>
             </a>
             
-          </li>
-
-          
+          </li>        
         </ul>
       </nav>
     </div>
@@ -212,11 +210,9 @@
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
   </aside>
 </div>
 
-<!-- Scripts -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <script> $.widget.bridge('uibutton', $.ui.button); </script>

@@ -4,12 +4,11 @@
 
 @section('content')
 <div class="container mt-5">
-    <!-- Success message -->
-    @if (session('success'))
+      @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <!-- Display errors -->
+   
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -137,7 +136,6 @@
     </form>
 </div>
 
-<!-- Script to toggle answer fields based on input type -->
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
     ClassicEditor
@@ -156,7 +154,7 @@
 
     if (inputType === 'text') {
         document.getElementById('text-options').style.display = 'block';
-        // Reset other fields
+   
         document.querySelectorAll('#image-options input, #audio-options input').forEach(input => input.value = '');
     } else if (inputType === 'image') {
         document.getElementById('image-options').style.display = 'block';
@@ -166,7 +164,7 @@
         document.querySelectorAll('#text-options input, #image-options input').forEach(input => input.value = '');
     }
 }
-    // Run toggleInputFields on page load to retain previous state
+   
     document.addEventListener('DOMContentLoaded', function () {
         toggleInputFields();
     });

@@ -129,7 +129,6 @@
             padding: 15px;
         }
 
-        /* Custom changes */
         .card-header h4 {
             color: #448EE4;
         }
@@ -148,7 +147,6 @@
             justify-content: space-between;
         }
 
-        /* Date input styles */
         .date-filter {
             display: flex;
             align-items: center;
@@ -229,7 +227,7 @@
             <th>Exam Title</th>
             <th>Score</th>
             <th>Date</th>
-            <th>Action</th> <!-- Add a column for the delete button -->
+            <th>Action</th> 
         </tr>
     </thead>
     <tbody>
@@ -257,7 +255,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

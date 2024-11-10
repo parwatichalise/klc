@@ -60,28 +60,26 @@
             var quizId = $(this).val(); 
 
             if (quizId) {
-                $('#loading-spinner').show(); // Show spinner while loading
+                $('#loading-spinner').show(); 
                 $('#questions-container').html('<p>Loading questions...</p>');
 
                 $.ajax({
                     url: `/questions/${quizId}/fetch`,
                     type: 'GET',
                     success: function(data) {
-                        $('#loading-spinner').hide(); // Hide spinner
-                        let questionsHtml = `<p>Total Questions: ${data.length}</p>`; // Initialize with total questions
+                        $('#loading-spinner').hide(); 
+                        let questionsHtml = `<p>Total Questions: ${data.length}</p>`; 
 
                         if (data.length > 0) {
                             data.forEach(function(question, index) {
-                                questionsHtml += '<div class="card mt-2">'; // Start card
+                                questionsHtml += '<div class="card mt-2">'; 
                                 questionsHtml += '<div class="card-body">';
 
-                                // Display question number and question text
                                 questionsHtml += `<h3 class="card-title" style="font-weight: bold; font-size: 1.25rem;">Question ${index + 1}:</h3>`;
                                 questionsHtml += `<p style="margin-bottom: 0.5rem;">${question.question_text || '[Non-text question]'}</p>`;
                                 questionsHtml += `<p>${question.question_table || '[No table data available]'}</p>`;
-                                questionsHtml += '<hr>'; // Line after question table
+                                questionsHtml += '<hr>'; 
                                 
-                                // Display image if available, else check for sound, otherwise show 'No media available'
                                 if (question.question_image) {
                                     questionsHtml += `<img src="/storage/${question.question_image}" alt="Question Image" style="max-width: 100px;">`;
                                 } else if (question.question_sound) {
@@ -90,7 +88,6 @@
                                     questionsHtml += '<p>No media available</p>';
                                 }
 
-                                // Display sub-questions
                                 if (question.sub_questions && question.sub_questions.length > 0) {
                                     questionsHtml += '<h4>Sub Questions:</h4>';
                                     question.sub_questions.forEach(function(subQuestion) {
@@ -98,7 +95,6 @@
                                     });
                                 }
 
-                                // Display answer options
                                 if (question.answers && question.answers.length > 0) {
                                     questionsHtml += '<div class="row">';
                                     question.answers.forEach(function(option, idx) {
@@ -124,13 +120,10 @@
                                     questionsHtml += '<p class="text-muted">No answers available for this question.</p>';
                                 }
 
-                                // Display correct answer
                                 questionsHtml += `<p><strong>Correct Answer:</strong> ${question.correct_answer || '[No correct answer]'}</p>`;
-
-                                // Edit button
+                                
                                 questionsHtml += `<a href="/questions/${question.id}/edit" class="btn btn-primary me-2">Edit</a>`;
 
-                                // Delete form
                                 questionsHtml += `
                                     <form action="/questions/${question.id}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this question?')">
                                         @csrf
@@ -138,7 +131,7 @@
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>`;
 
-                                questionsHtml += '</div></div>'; // End card
+                                questionsHtml += '</div></div>'; 
                             });
                         } else {
                             questionsHtml = '<p>No questions available for the selected quiz...</p>';
@@ -147,7 +140,7 @@
                         $('#questions-container').html(questionsHtml);
                     },
                     error: function(xhr, status, error) {
-                        $('#loading-spinner').hide(); // Hide spinner on error
+                        $('#loading-spinner').hide(); 
                         console.error('AJAX Error:', status, error);
                         $('#questions-container').html('<p>Error loading questions. Please try again.</p>');
                     }

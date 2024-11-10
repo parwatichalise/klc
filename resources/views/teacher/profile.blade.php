@@ -12,7 +12,7 @@
             <!-- Profile Edit Form -->
             <form action="{{ route('admin.updateProfile') }}" method="POST">
                 @csrf
-                @method('PUT') <!-- Use PUT for updating existing data -->
+                @method('PUT')
 
                 <div class="row mt-4">
                     <!-- First Name and Last Name -->

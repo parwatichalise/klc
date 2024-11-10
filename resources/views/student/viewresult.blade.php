@@ -1,4 +1,3 @@
-<!-- resources/views/student/viewresult.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,8 +90,6 @@
      </div>
     </div>
     <div class="flex justify-center gap-4 mt-4">
-        <!-- viewresult.blade.php -->
-
         <a href="{{ route('student.result') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">RESULTS LIST</a>
     </div>
     </div>
