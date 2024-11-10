@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EPS-TOPIK UBT Trail Exam</title>
-    <!-- Bootstrap CSS -->
+   
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     
@@ -56,16 +56,16 @@
         .card {
             margin: 10px;
             width: 22.5%;
-            border: 1px solid #ddd; /* Light grey border similar to the image */
-            border-radius: 10px; /* Rounded corners */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow effect */
-            transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
-            background-color: white; /* White background for card */
+            border: 1px solid #ddd; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            transition: box-shadow 0.3s ease;
+            background-color: white;
             overflow: hidden; 
         }
 
         .card:hover {
-           box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Slightly darker shadow on hover */
+           box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
        }
 
         .card img {
@@ -73,8 +73,6 @@
             border-top-right-radius: 15px;
         }
 
-
-        /* Badge for "Available" and "Available to Buy" */
         .badge-available,
         .badge-available-buy {
             border: 1px solid;
@@ -148,80 +146,77 @@
         }
 
         .active {
-        background-color: skyblue; /* Adjust the color as needed */
-        color: white; /* Adjust text color for contrast */
+        background-color: skyblue; 
+        color: white;
         }
 
        
        .profile-section {
-            margin: 20px auto; /* Center align with auto margins */
+            margin: 20px auto; 
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #f8f9fa;
-            max-width: 500px; /* Set max width for centering */
-            position: relative; /* For absolute positioning of edit button */
+            max-width: 500px;
+            position: relative; 
         }
 
         .profile-section h3 {
             color: #007bff;
-            text-align: center; /* Center title */
+            text-align: center; 
         }
 
         .profile-section .form-group {
             margin-bottom: 15px;
         }
 
-        /* Styles for the hover menu */
         .hover-menu {
-            display: none; /* Hide by default */
-            position: absolute; /* Position relative to the dropdown */
-            background-color: white; /* Background color for the dropdown */
-            border: 1px solid #ddd; /* Border for the dropdown */
-            z-index: 1000; /* Ensure it appears above other content */
-            right: 0; /* Align it to the right */
-            width: 150px; /* Width of the dropdown */
+            display: none; 
+            position: absolute; 
+            background-color: white; 
+            border: 1px solid #ddd; 
+            z-index: 1000; 
+            right: 0; 
+            width: 150px; 
         }
 
         .user-icon:hover .hover-menu {
-            display: block; /* Show on hover */
+            display: block; 
         }
 
         .hover-menu a {
-            color: black; /* Color for dropdown items */
-            padding: 10px; /* Padding for items */
-            text-decoration: none; /* No underline */
-            display: block; /* Block level */
+            color: black; 
+            padding: 10px;
+            text-decoration: none;
+            display: block; 
         }
 
         .hover-menu a:hover {
-            background-color: #007bff; /* Change color on hover */
-            color: white; /* Text color on hover */
+            background-color: #007bff; 
+            color: white; 
         }
 
-        /* Align user icon and text */
         .user-info {
             display: flex;
-            flex-direction: column; /* Stack elements vertically */
-            align-items: flex-start; /* Align items to the left */
+            flex-direction: column; 
+            align-items: flex-start;
         }
 
         .user-info .user-name {
-            display: flex; /* Use flexbox for name and icon */
-            align-items: center; /* Center the icon with text */
+            display: flex; 
+            align-items: center; 
         }
 
         .user-info .user-name span {
-            margin-right: 8px; /* Space between text and icon */
+            margin-right: 8px;
         }
 
         .user-info .user-name .fas {
-            font-size: 30px; /* Size of the Font Awesome icon */
+            font-size: 30px; 
         }
 
-        /* To ensure alignment of the name and role */
         .user-info span.role {
-            margin-left: 0px; /* Adjust margin to align with the name */
+            margin-left: 0px; 
         }
 
       .popup {
@@ -230,8 +225,8 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 9999;
-        background-color: #28a745; /* Green background */
-        color: white; /* White text */
+        background-color: #28a745; 
+        color: white;
         padding: 20px;
         border-radius: 5px;
         width: 400px;
@@ -242,22 +237,21 @@
         text-align: center;
     }
 
-    /* Popup background (darken effect) */
     .popup-background {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.5); /* Dark transparent background */
+        background: rgba(0, 0, 0, 0.5); 
         z-index: 9998;
     }
 
-    /* Close button styling */
+
     #close-popup {
         margin-top: 10px;
         background-color: white;
-        color: #28a745; /* Green text */
+        color: #28a745;
         border: none;
         padding: 8px 12px;
         border-radius: 4px;
@@ -265,11 +259,8 @@
     }
 
     #close-popup:hover {
-        background-color: #f8f9fa; /* Lighter white background on hover */
+        background-color: #f8f9fa; 
     }
-
-
-
     
     </style>
 </head>
@@ -300,7 +291,7 @@
             <div class="user-info">
                 <div class="user-name">
                     <span>{{ $studentName }}</span>
-                    <i class="fas fa-user-circle"></i> <!-- Font Awesome user icon -->
+                    <i class="fas fa-user-circle"></i> 
                 </div>
                 <span class="role">Student</span> 
             </div>
@@ -316,11 +307,10 @@
         </div>
     </div>
 
-<!-- Available Exams Section -->
 <h2 class="mt-4"><strong>Available Exams</strong></h2>
 <div class="exam-list">
     @foreach ($quizzes as $quiz)
-        @if($quiz->price == 0 || $quiz->price == null) <!-- Ensure only free exams are listed here -->
+        @if($quiz->price == 0 || $quiz->price == null) 
             <div class="card">
                 <div class="exam-card-header">
                 @if($quiz->photo)
@@ -337,7 +327,7 @@
                         <span class="rounded-badge">{{ $tag->name }}</span>
                     @endforeach
                     <br><br>
-                    <span class="badge-available">{{ $quiz->active ? 'Available' : 'Unavailable' }}</span> <!-- Status based on active -->
+                    <span class="badge-available">{{ $quiz->active ? 'Available' : 'Unavailable' }}</span> 
 
                     @if($quiz->active)
                         <a href="{{ route('exam', ['examTitle' => $quiz->heading]) }}" class="btn btn-primary mt-2">
@@ -360,7 +350,7 @@
         @endphp
 
         @foreach ($quizzesGroupedByPackage as $packageId => $quizzes)
-            @if ($quizzes->first()->package) <!-- Ensure the package is not null -->
+            @if ($quizzes->first()->package)
                 @php
                     $package = $quizzes->first()->package;
                     // Check for an active payment that matches the quiz price
@@ -381,9 +371,9 @@
                         <span class="badge-available">{{ $quizzes->first()->active ? 'Available' : 'Unavailable' }}</span>
 
                         @if($quizzes->first()->active)
-                            @if($activePayment) <!-- Show VIEW button only if active payment exists -->
+                            @if($activePayment) 
                                 <a href="{{ route('available.exams') }}" class="btn btn-primary mt-2">VIEW</a>
-                            @else <!-- Show BUY button if no active payment -->
+                            @else 
                                 @if($quizzes->first()->price)
                                     <button class="btn buy-btn mt-2" data-package-name="{{ $package->name }}" 
                                             data-price="{{ $quizzes->first()->price }}" data-toggle="modal" 
@@ -414,23 +404,23 @@
             <div class="modal-body">
                 <form action="https://uat.esewa.com.np/epay/main" method="POST">
                     @csrf
-                    <h5 id="modal-package-name"></h5> <!-- Modal Package Name -->
-                    <p id="modal-price"></p> <!-- Modal Price -->
+                    <h5 id="modal-package-name"></h5> 
+                    <p id="modal-price"></p> 
 
                     <!-- Hidden Form Fields -->
-                    <input type="hidden" name="tAmt" id="totalAmount" value=""> <!-- Total amount -->
-                    <input type="hidden" name="amt" id="packagePriceInput" value="">  <!-- Item price -->
-                    <input type="hidden" name="txAmt" value="0">   <!-- Tax amount -->
-                    <input type="hidden" name="psc" value="0">     <!-- Service charge -->
-                    <input type="hidden" name="pdc" value="0">     <!-- Delivery charge -->
+                    <input type="hidden" name="tAmt" id="totalAmount" value=""> 
+                    <input type="hidden" name="amt" id="packagePriceInput" value=""> 
+                    <input type="hidden" name="txAmt" value="0">  
+                    <input type="hidden" name="psc" value="0">    
+                    <input type="hidden" name="pdc" value="0">  
 
-                    <input type="hidden" name="scd" value="EPAYTEST"> <!-- Merchant ID for testing -->
-                    <input type="hidden" name="pid" id="productID" value=""> <!-- Unique product ID -->
+                    <input type="hidden" name="scd" value="EPAYTEST">
+                    <input type="hidden" name="pid" id="productID" value=""> 
 
-                    <input type="hidden" name="su" value="{{ route('payment.success') }}"> <!-- Success URL -->
-                    <input type="hidden" name="fu" value="{{ route('payment.failure') }}"> <!-- Failure URL -->
+                    <input type="hidden" name="su" value="{{ route('payment.success') }}"> 
+                    <input type="hidden" name="fu" value="{{ route('payment.failure') }}"> 
 
-                    <!-- User Information -->
+                  
                     <input type="hidden" name="user_name" value="{{ Auth::user()->name }}">
                     <input type="hidden" name="user_email" value="{{ Auth::user()->email }}">
 
@@ -449,16 +439,13 @@
         button.addEventListener('click', function () {
             var packageName = this.getAttribute('data-package-name');
             var price = this.getAttribute('data-price');
-            
-            // Update the modal with the correct package name and price
+
             document.getElementById('modal-package-name').textContent = packageName;
             document.getElementById('modal-price').textContent = 'Price: Rs. ' + price;
 
-            // Set form values
             document.getElementById('packagePriceInput').value = price;
             document.getElementById('totalAmount').value = price;
 
-            // Set a unique product ID
             document.getElementById('productID').value = 'PID_' + Date.now();
         });
     });
@@ -502,7 +489,6 @@
 
 </div>
 
-<!-- Bootstrap JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

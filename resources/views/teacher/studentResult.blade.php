@@ -7,7 +7,6 @@
     <h2 class="text-center mb-4">Detail Of Student Result</h2>
 
     <style>
-        /* Custom table border color */
         .table-bordered, .table-bordered th, .table-bordered td {
             border: 1px solid black !important;
         }
@@ -16,7 +15,6 @@
         }
     </style>
 
-    <!-- Display success or error messages -->
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif

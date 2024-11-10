@@ -21,16 +21,16 @@
         }
         .question-box {
             border: 1px solid #007bff;
-            padding: 0; /* Remove padding */
+            padding: 0;
             margin: 5px;
             text-align: center;
             cursor: pointer;
             border-radius: 5px;
             flex: 1 0 20%;
-            display: flex; /* Flexbox to center content */
+            display: flex;
             justify-content: center;
             align-items: center;
-            height: 60px; /* Set a fixed height */
+            height: 60px; 
         }
 
                 .question-box a {
@@ -68,11 +68,11 @@
         display: flex;
         flex-wrap: wrap;
         justify-content:flex-start;
-        gap: 10px; /* Add some space between the buttons */
+        gap: 10px; 
     }
 
     .question-box {
-        width: calc(10% - 10px); /* Adjust for 10 buttons in a row with gap */
+        width: calc(10% - 10px); 
         display: flex;
         justify-content: center;
         align-items: center;
@@ -103,7 +103,7 @@
         .no-underline {
             text-decoration: none;
             color: inherit;
-        }
+        }        
 
     </style>
 </head>
@@ -114,7 +114,7 @@
 <div class="exam-header d-flex justify-content-between align-items-center">
     <h3>APS-KLC UBT Trail Exam</h3>
     <div class="user-name">
-        <span>{{ auth()->user()->username }}</span> <!-- Display logged-in user's name -->
+        <span>{{ auth()->user()->username }}</span> 
         <i class="fas fa-user-circle"></i>
     </div>
 </div>
@@ -248,20 +248,20 @@
         const timerElement = document.getElementById('timer');
         
         const interval = setInterval(function () {
-            const minutes = Math.floor(timeRemaining / 60); // minutes left
-            const seconds = timeRemaining % 60; // seconds left
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60; 
 
             timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
             if (timeRemaining <= 0) {
-                clearInterval(interval); // stop the countdown
+                clearInterval(interval); 
                 timerElement.textContent = "Time's up!";
 
                 document.getElementById("quizForm").submit();
 
                 setTimeout(function () {
-                    window.location.href = "{{ route('exam.summary', ['quiz_id' => $quiz->id]) }}"; // Correct the route if needed
-                }, 1000); // Delay for 1 second
+                    window.location.href = "{{ route('exam.summary', ['quiz_id' => $quiz->id]) }}"; 
+                }, 1000); 
             }
 
             timeRemaining--;

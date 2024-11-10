@@ -23,7 +23,6 @@
             display: inline-block;
         }
 
-        /* Right corner user info styles copied from profile.blade.php */
         .user-icon {
             display: inline-block;
             position: relative;
@@ -70,7 +69,7 @@
         }
 
         .content {
-            padding: 100px 20px 20px 20px; /* Spacing for the fixed top-bar */
+            padding: 100px 20px 20px 20px; 
             text-align: center;
         }
 
@@ -87,7 +86,7 @@
         <div class="user-icon">
             <div class="user-info">
             <div class="user-name">
-                <span>{{ auth()->user()->username }}</span> <!-- Updated username will display here -->
+                <span>{{ auth()->user()->username }}</span> 
                 <i class="fas fa-user-circle"></i>
             </div>
                 <span class="role">Student</span>

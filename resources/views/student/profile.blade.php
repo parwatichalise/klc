@@ -40,7 +40,7 @@
         }
 
         .top-bar {
-            background-color: #007bff; /* Your desired top bar color */
+            background-color: #007bff;
             padding: 10px;
             color: white;
             display: flex;
@@ -57,80 +57,76 @@
         }
 
         .profile-section {
-            margin: 20px auto; /* Center align with auto margins */
+            margin: 20px auto; 
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #f8f9fa;
-            max-width: 500px; /* Set max width for centering */
-            position: relative; /* For absolute positioning of edit button */
+            max-width: 500px; 
+            position: relative; 
         }
 
         .profile-section h3 {
             color: #007bff;
-            text-align: center; /* Center title */
+            text-align: center;
         }
 
         .profile-section .form-group {
             margin-bottom: 15px;
         }
 
-        /* Styles for the hover menu */
         .hover-menu {
-            display: none; /* Hide by default */
-            position: absolute; /* Position relative to the dropdown */
-            background-color: white; /* Background color for the dropdown */
-            border: 1px solid #ddd; /* Border for the dropdown */
-            z-index: 1000; /* Ensure it appears above other content */
-            right: 0; /* Align it to the right */
-            width: 150px; /* Width of the dropdown */
-        }
+            display: none;
+            position: absolute; 
+            background-color: white; 
+            border: 1px solid #ddd;
+            z-index: 1000; 
+            right: 0; 
+            width: 150px; 
 
         .user-icon:hover .hover-menu {
-            display: block; /* Show on hover */
+            display: block; 
         }
 
         .hover-menu a {
-            color: black; /* Color for dropdown items */
-            padding: 10px; /* Padding for items */
-            text-decoration: none; /* No underline */
-            display: block; /* Block level */
+            color: black;
+            padding: 10px;
+            text-decoration: none;
+            display: block; 
         }
 
         .hover-menu a:hover {
-            background-color: #007bff; /* Change color on hover */
-            color: white; /* Text color on hover */
+            background-color: #007bff; 
+            color: white;
         }
 
         .edit-button {
-            position: absolute; /* Positioning for lower right corner */
+            position: absolute; 
             right: 20px;
             bottom: 20px;
         }
 
-        /* Align user icon and text */
         .user-info {
             display: flex;
-            flex-direction: column; /* Stack elements vertically */
-            align-items: flex-start; /* Align items to the left */
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .user-info .user-name {
-            display: flex; /* Use flexbox for name and icon */
-            align-items: center; /* Center the icon with text */
+            display: flex; 
+            align-items: center;
         }
 
         .user-info .user-name span {
-            margin-right: 8px; /* Space between text and icon */
+            margin-right: 8px; 
         }
 
         .user-info .user-name .fas {
-            font-size: 30px; /* Size of the Font Awesome icon */
+            font-size: 30px;
         }
 
-        /* To ensure alignment of the name and role */
         .user-info span.role {
-            margin-left: 0px; /* Adjust margin to align with the name */
+            margin-left: 0px; 
         }
     </style>
 </head>
@@ -159,7 +155,7 @@
         <div class="user-icon">
             <div class="user-info">
             <div class="user-name">
-                <span>{{ auth()->user()->username }}</span> <!-- Updated username will display here -->
+                <span>{{ auth()->user()->username }}</span>
                 <i class="fas fa-user-circle"></i>
             </div>
 
@@ -178,10 +174,9 @@
     </div>
 
     <!-- Profile Section -->
-     <!-- Profile Edit Form -->
      <form action="{{ route('admin.updateProfile') }}" method="POST">
                 @csrf
-                @method('PUT') <!-- Use PUT for updating existing data -->
+                @method('PUT') 
 
                 <div class="row mt-4">
                     <!-- First Name and Last Name -->
@@ -236,7 +231,6 @@
                 </div>
             </form>
 
-<!-- Bootstrap JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
