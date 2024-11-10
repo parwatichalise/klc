@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\models\Package;
+use App\Models\Package;
 use Illuminate\Support\Facades\Auth;
 
 class PackageController extends Controller
